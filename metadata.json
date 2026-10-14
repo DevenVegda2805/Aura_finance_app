@@ -1,0 +1,6 @@
+{
+  "name": "Aura - Expense & Savings Manager",
+  "description": "Apple Wallet-inspired personal expense and savings manager with category budgeting, interactive pie charts, visual spending reports, and savings goal tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

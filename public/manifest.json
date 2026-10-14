@@ -1,0 +1,27 @@
+{
+  "id": "/",
+  "name": "Aura - Expense & Savings Manager",
+  "short_name": "Aura",
+  "description": "Apple Wallet-inspired personal expense and savings manager with category budgeting, interactive pie charts, visual spending reports, and savings goal tracking.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F5F5F7",
+  "theme_color": "#F5F5F7",
+  "orientation": "portrait-primary",
+  "categories": ["finance", "productivity"],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
