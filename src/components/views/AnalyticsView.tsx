@@ -4,7 +4,6 @@ import { MonthlyBarChart } from '../charts/MonthlyBarChart';
 import { DonutPieChart } from '../charts/DonutPieChart';
 import { SpendingVelocityChart } from '../charts/SpendingVelocityChart';
 import { formatCurrency, formatCompactCurrency } from '../../utils/formatters';
-import { getCategoryIcon } from '../../utils/categoryIcons';
 import {
   PieChart,
   BarChart3,
@@ -12,8 +11,6 @@ import {
   Store,
   Calendar,
   Layers,
-  ArrowUpRight,
-  ShieldCheck,
 } from 'lucide-react';
 
 interface AnalyticsViewProps {
@@ -30,7 +27,6 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({ store }) => {
     transactions,
     categoryMap,
     totalMonthlyBudget,
-    totalAccumulatedSavings,
     settings,
   } = store;
 
@@ -98,23 +94,23 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({ store }) => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="text-xs text-slate-500 font-medium">
+          <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             Visual Intelligence &amp; Data Models
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 mt-0.5">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-0.5">
             Spending &amp; Savings Analytics
           </h1>
         </div>
 
-        <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-2xl border border-slate-200 shadow-sm self-start sm:self-auto">
+        <div className="flex items-center gap-2 bg-white dark:bg-slate-900 px-3 py-1.5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs self-start sm:self-auto">
           <Calendar className="w-4 h-4 text-slate-400" />
           <select
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(e.target.value)}
-            className="text-xs font-semibold text-slate-800 bg-transparent focus:outline-none cursor-pointer pr-2"
+            className="text-xs font-semibold text-slate-800 dark:text-slate-200 bg-transparent focus:outline-none cursor-pointer pr-2"
           >
             {availableMonths.map((m) => (
-              <option key={m} value={m}>
+              <option key={m} value={m} className="dark:bg-slate-900 dark:text-slate-200">
                 {new Date(parseInt(m.split('-')[0]), parseInt(m.split('-')[1]) - 1).toLocaleDateString(
                   'en-US',
                   { month: 'long', year: 'numeric' }
@@ -126,18 +122,18 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({ store }) => {
       </div>
 
       {/* Chart 1: Multi-Month Financial Trajectory Bar Graph */}
-      <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
           <div>
-            <h2 className="text-base font-bold text-slate-900 tracking-tight flex items-center gap-2">
-              <BarChart3 className="w-4 h-4 text-indigo-600" />
+            <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+              <BarChart3 className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
               <span>Multi-Month Cashflow Graph</span>
             </h2>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Comparative history of Inflow vs Outflow vs Saved across billing cycles
             </p>
           </div>
-          <span className="text-xs text-slate-400">Tap any month bar to filter report</span>
+          <span className="text-xs text-slate-400 dark:text-slate-500">Tap any month bar to filter report</span>
         </div>
 
         <MonthlyBarChart
@@ -149,14 +145,14 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({ store }) => {
       </div>
 
       {/* Chart 2: Interactive Donut / Pie Visualization */}
-      <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
           <div>
-            <h2 className="text-base font-bold text-slate-900 tracking-tight flex items-center gap-2">
-              <PieChart className="w-4 h-4 text-emerald-600" />
+            <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+              <PieChart className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <span>Category Expense Pie Distribution</span>
             </h2>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Slice proportions for {currentMonthSummary.label}
             </p>
           </div>
@@ -172,14 +168,14 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({ store }) => {
       </div>
 
       {/* Chart 3: Spending Velocity & Runway Pace */}
-      <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
           <div>
-            <h2 className="text-base font-bold text-slate-900 tracking-tight flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-sky-600" />
+            <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+              <TrendingUp className="w-4 h-4 text-sky-600 dark:text-sky-400" />
               <span>Cumulative Spending Velocity Curve</span>
             </h2>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Daily cumulative expenditure progression vs monthly budget ceiling
             </p>
           </div>
@@ -196,21 +192,21 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({ store }) => {
       {/* Two Column Section: Top Merchants + Day-of-Week Rhythm */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Top 5 Spending Payees */}
-        <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
             <div>
-              <h2 className="text-base font-bold text-slate-900 tracking-tight flex items-center gap-2">
-                <Store className="w-4 h-4 text-purple-600" />
+              <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+                <Store className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                 <span>Top Spending Merchants</span>
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Largest total payee outflows in {currentMonthSummary.label}
               </p>
             </div>
           </div>
 
           {topMerchants.length === 0 ? (
-            <p className="text-xs text-slate-400 py-6 text-center">No merchant data recorded yet.</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500 py-6 text-center">No merchant data recorded yet.</p>
           ) : (
             <div className="space-y-3">
               {topMerchants.map((item, idx) => {
@@ -218,27 +214,27 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({ store }) => {
                 return (
                   <div
                     key={item.merchant}
-                    className="p-3 rounded-2xl bg-slate-50/70 border border-slate-100 flex items-center justify-between gap-3"
+                    className="p-3 rounded-2xl bg-slate-50/70 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3"
                   >
                     <div className="flex items-center gap-3 min-w-0">
-                      <span className="w-6 text-xs font-bold text-slate-400 tabular-nums">
+                      <span className="w-6 text-xs font-bold text-slate-400 dark:text-slate-500 tabular-nums">
                         #{idx + 1}
                       </span>
                       <div className="min-w-0">
-                        <p className="text-xs font-bold text-slate-900 truncate">
+                        <p className="text-xs font-bold text-slate-900 dark:text-white truncate">
                           {item.merchant}
                         </p>
-                        <p className="text-[11px] text-slate-500">
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
                           {cat?.name || 'General'} · {item.count} {item.count === 1 ? 'charge' : 'charges'}
                         </p>
                       </div>
                     </div>
 
                     <div className="text-right shrink-0">
-                      <span className="text-xs font-extrabold text-slate-900 tabular-nums">
+                      <span className="text-xs font-extrabold text-slate-900 dark:text-white tabular-nums">
                         {formatCurrency(item.amount, settings.currency)}
                       </span>
-                      <span className="block text-[10px] text-slate-500 tabular-nums">
+                      <span className="block text-[10px] text-slate-500 dark:text-slate-400 tabular-nums">
                         {item.share}% of spend
                       </span>
                     </div>
@@ -250,14 +246,14 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({ store }) => {
         </div>
 
         {/* Day-of-Week Rhythm */}
-        <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
             <div>
-              <h2 className="text-base font-bold text-slate-900 tracking-tight flex items-center gap-2">
-                <Layers className="w-4 h-4 text-amber-600" />
+              <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+                <Layers className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                 <span>Day-of-Week Spending Heat</span>
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Weekly behavioral cadence for {currentMonthSummary.label}
               </p>
             </div>
@@ -267,18 +263,18 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({ store }) => {
             {dayOfWeekSpending.map((d) => (
               <div key={d.day} className="flex flex-col items-center gap-2">
                 {/* Bar */}
-                <div className="w-full bg-slate-100 h-28 rounded-xl flex items-end p-1">
+                <div className="w-full bg-slate-100 dark:bg-slate-800 h-28 rounded-xl flex items-end p-1">
                   <div
-                    className="w-full bg-slate-900 rounded-lg transition-all duration-500 hover:bg-indigo-600"
+                    className="w-full bg-slate-900 dark:bg-indigo-600 rounded-lg transition-all duration-500 hover:bg-indigo-600 dark:hover:bg-indigo-500"
                     style={{ height: `${Math.max(8, d.pctOfMax)}%` }}
                     title={`${d.day}: ${formatCurrency(d.amount, settings.currency)}`}
                   />
                 </div>
                 {/* Day Label */}
-                <span className="text-[11px] font-semibold text-slate-600">
+                <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-400">
                   {d.day}
                 </span>
-                <span className="text-[9px] text-slate-400 tabular-nums truncate max-w-full">
+                <span className="text-[9px] text-slate-400 dark:text-slate-500 tabular-nums truncate max-w-full">
                   {formatCompactCurrency(d.amount, settings.currency)}
                 </span>
               </div>

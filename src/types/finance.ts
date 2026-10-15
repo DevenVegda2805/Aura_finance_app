@@ -1,8 +1,48 @@
 export type TransactionType = 'expense' | 'income' | 'savings';
 
-export type PaymentMethod = 'apple_pay' | 'card' | 'bank_transfer' | 'cash';
+export type PaymentMethod =
+  | 'phonepe'
+  | 'gpay'
+  | 'paytm'
+  | 'apple_pay'
+  | 'bhim_upi'
+  | 'amazon_pay'
+  | 'cred'
+  | 'card'
+  | 'bank_transfer'
+  | 'cash';
 
 export type RecurringFrequency = 'weekly' | 'monthly';
+
+export interface DetectedExpense {
+  id: string;
+  amount: number;
+  merchant: string;
+  date: string; // YYYY-MM-DD
+  time?: string; // HH:MM
+  paymentMethod: PaymentMethod;
+  referenceId?: string;
+  sourceText?: string;
+  suggestedCategoryId?: string;
+  detectedAt: string;
+  status: 'pending' | 'categorized' | 'dismissed';
+}
+
+export interface LinkedPaymentApp {
+  id: string;
+  name: string;
+  appType: PaymentMethod;
+  upiId?: string;
+  isEnabled: boolean;
+  iconBgColor: string;
+  textColor: string;
+  lastSync?: string;
+}
+
+export interface MerchantCategoryRule {
+  merchantKeyword: string;
+  categoryId: string;
+}
 
 export interface Category {
   id: string;
@@ -44,10 +84,11 @@ export interface RecurringBill {
 export interface SavingsGoal {
   id: string;
   title: string;
+  name?: string;
   targetAmount: number;
   currentAmount: number;
   targetDate: string; // YYYY-MM-DD
-  category: string;
+  category?: string;
   notes?: string;
   color: string;
   iconName: string;
@@ -55,10 +96,54 @@ export interface SavingsGoal {
 
 export type CurrencyCode = 'USD' | 'EUR' | 'GBP' | 'INR' | 'CAD' | 'AUD' | 'JPY';
 
+export interface DashboardWidgetsConfig {
+  showUpiBanner: boolean;
+  showFreshSlateCard: boolean;
+  showFloatingUpiPopup: boolean;
+  showKpiCards: boolean;
+  showBudgetRunwayGauge: boolean;
+  showBudgetAlertsWatchlist: boolean;
+  showCategoryDonut: boolean;
+  showSavingsGoals: boolean;
+  showRecentTransactions: boolean;
+}
+
 export interface UserSettings {
   currency: CurrencyCode;
   monthlyIncome: number;
   userName: string;
+  userEmail: string;
+  rememberMe: boolean;
+  darkMode?: boolean;
+  lastSaved?: string;
+  budgetAlertsEnabled?: boolean;
+  budgetAlertThreshold?: number; // e.g. 80 (80%)
+  velocityAlertsEnabled?: boolean;
+  dashboardWidgets?: DashboardWidgetsConfig;
+}
+
+export type BudgetAlertSeverity = 'critical' | 'warning' | 'velocity';
+
+export interface BudgetAlert {
+  id: string; // unique alert key e.g. alert-cat-dining-2026-10
+  categoryId: string;
+  categoryName: string;
+  categoryColor: string;
+  categoryIcon: string;
+  severity: BudgetAlertSeverity;
+  percentage: number; // actual % of limit
+  spent: number;
+  limit: number;
+  remaining: number;
+  overspent: number;
+  dailySpendRate: number;
+  projectedMonthEndSpend: number;
+  daysRemaining: number;
+  safeDailySpend: number;
+  title: string;
+  message: string;
+  recommendation: string;
+  isDismissed?: boolean;
 }
 
 export interface MonthlyCategorySpending {
@@ -71,6 +156,12 @@ export interface MonthlyCategorySpending {
   percentage: number;
   remaining: number;
   transactionCount: number;
+  overspent?: number;
+  dailySpendRate?: number;
+  projectedMonthEndSpend?: number;
+  isApproaching?: boolean;
+  isOverbudget?: boolean;
+  isHighVelocity?: boolean;
 }
 
 export interface MonthSummary {

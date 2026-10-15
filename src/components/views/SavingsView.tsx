@@ -6,7 +6,7 @@ import { getCategoryIcon } from '../../utils/categoryIcons';
 import { ProgressRing } from '../charts/ProgressRing';
 import { AddSavingsGoalModal } from '../modals/AddSavingsGoalModal';
 import { ContributeGoalModal } from '../modals/ContributeGoalModal';
-import { Plus, PiggyBank, Target, Calendar, Sparkles, Trash2, TrendingUp } from 'lucide-react';
+import { Plus, PiggyBank, Calendar, Sparkles, Trash2 } from 'lucide-react';
 
 interface SavingsViewProps {
   store: FinanceStore;
@@ -51,17 +51,17 @@ export const SavingsView: React.FC<SavingsViewProps> = ({ store }) => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="text-xs text-slate-500 font-medium">
+          <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             Long-Term Wealth &amp; Milestone Tracking
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 mt-0.5">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-0.5">
             Savings Goals
           </h1>
         </div>
 
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="self-start sm:self-auto px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold shadow-sm transition-all flex items-center gap-1.5 active:scale-95"
+          className="self-start sm:self-auto px-4 py-2 bg-slate-900 dark:bg-indigo-600 hover:bg-slate-800 dark:hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-sm transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>New Savings Goal</span>
@@ -69,48 +69,48 @@ export const SavingsView: React.FC<SavingsViewProps> = ({ store }) => {
       </div>
 
       {/* Aggregate Savings Progress Banner */}
-      <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-5 w-full md:w-auto">
           <ProgressRing
             progress={overallProgress}
             size={84}
             strokeWidth={8}
             color="#34C759"
-            trackColor="#E2E8F0"
+            trackColor="#334155"
           >
-            <span className="text-sm font-extrabold text-slate-900 tabular-nums">
+            <span className="text-sm font-extrabold text-slate-900 dark:text-white tabular-nums">
               {overallProgress}%
             </span>
           </ProgressRing>
 
           <div>
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
               Total Accumulated Reserves
             </span>
             <div className="flex items-baseline gap-2 mt-0.5">
-              <span className="text-3xl font-extrabold text-slate-900 tracking-tight tabular-nums">
+              <span className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight tabular-nums">
                 {formatCurrency(totalAccumulatedSavings, settings.currency)}
               </span>
-              <span className="text-xs text-slate-500">
+              <span className="text-xs text-slate-500 dark:text-slate-400">
                 of {formatCurrency(totalSavingsTarget, settings.currency)} overall milestone
               </span>
             </div>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               {formatCurrency(Math.max(0, totalSavingsTarget - totalAccumulatedSavings), settings.currency)} remaining across {savingsGoals.length} life goals
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-3 w-full md:w-auto justify-end">
-          <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-center min-w-[120px]">
-            <span className="text-[11px] text-slate-500 block">Active Goals</span>
-            <span className="text-base font-extrabold text-slate-900 tabular-nums">
+          <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700/80 text-center min-w-[120px]">
+            <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Active Goals</span>
+            <span className="text-base font-extrabold text-slate-900 dark:text-white tabular-nums">
               {savingsGoals.length}
             </span>
           </div>
-          <div className="p-3 bg-emerald-50 rounded-2xl border border-emerald-100 text-center min-w-[120px]">
-            <span className="text-[11px] text-emerald-700 block font-medium">Milestones</span>
-            <span className="text-base font-extrabold text-emerald-800 tabular-nums">
+          <div className="p-3 bg-emerald-50 dark:bg-emerald-950/40 rounded-2xl border border-emerald-100 dark:border-emerald-800 text-center min-w-[120px]">
+            <span className="text-[11px] text-emerald-700 dark:text-emerald-300 block font-medium">Milestones</span>
+            <span className="text-base font-extrabold text-emerald-800 dark:text-emerald-200 tabular-nums">
               {savingsGoals.filter((g) => g.currentAmount >= g.targetAmount).length} Reached
             </span>
           </div>
@@ -119,17 +119,17 @@ export const SavingsView: React.FC<SavingsViewProps> = ({ store }) => {
 
       {/* Goals Grid or Empty State */}
       {savingsGoals.length === 0 ? (
-        <div className="bg-white p-12 rounded-3xl border border-slate-200/80 shadow-sm text-center space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-500 mx-auto flex items-center justify-center">
+        <div className="bg-white dark:bg-slate-900 p-12 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs text-center space-y-3">
+          <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 mx-auto flex items-center justify-center">
             <PiggyBank className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-bold text-slate-900">Start Your First Savings Milestone</h3>
-          <p className="text-xs text-slate-500 max-w-sm mx-auto">
+          <h3 className="text-base font-bold text-slate-900 dark:text-white">Start Your First Savings Milestone</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
             Create a savings goal with a target amount and date. Aura will pace your monthly deposits and track your progress rings.
           </p>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold shadow-sm transition-all inline-flex items-center gap-1.5 active:scale-95"
+            className="px-5 py-2.5 bg-slate-900 dark:bg-indigo-600 hover:bg-slate-800 dark:hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-sm transition-all inline-flex items-center gap-1.5 active:scale-95 cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>Create Savings Goal</span>
@@ -145,7 +145,7 @@ export const SavingsView: React.FC<SavingsViewProps> = ({ store }) => {
             return (
               <div
                 key={goal.id}
-                className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-5 hover:border-slate-300 transition-colors"
+                className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col justify-between space-y-5 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
               >
                 <div>
                   {/* Header: Title, Category, Delete */}
@@ -158,10 +158,10 @@ export const SavingsView: React.FC<SavingsViewProps> = ({ store }) => {
                         {getCategoryIcon(goal.iconName, { className: 'w-5 h-5' })}
                       </div>
                       <div className="min-w-0">
-                        <h3 className="text-base font-bold text-slate-900 truncate">
+                        <h3 className="text-base font-bold text-slate-900 dark:text-white truncate">
                           {goal.title}
                         </h3>
-                        <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                        <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
                           <span>{goal.category}</span>
                           <span aria-hidden="true">·</span>
                           <span className="flex items-center gap-1">
@@ -174,7 +174,7 @@ export const SavingsView: React.FC<SavingsViewProps> = ({ store }) => {
 
                     <button
                       onClick={() => deleteSavingsGoal(goal.id)}
-                      className="w-7 h-7 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 flex items-center justify-center transition-colors"
+                      className="w-7 h-7 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 flex items-center justify-center transition-colors cursor-pointer"
                       title="Delete Goal"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -188,30 +188,30 @@ export const SavingsView: React.FC<SavingsViewProps> = ({ store }) => {
                       size={76}
                       strokeWidth={7}
                       color={goal.color}
-                      trackColor="#F1F5F9"
+                      trackColor="#334155"
                     >
-                      <span className="text-xs font-bold text-slate-900 tabular-nums">
+                      <span className="text-xs font-bold text-slate-900 dark:text-white tabular-nums">
                         {pct}%
                       </span>
                     </ProgressRing>
 
                     <div className="space-y-1">
                       <div>
-                        <span className="text-2xl font-extrabold text-slate-900 tabular-nums">
+                        <span className="text-2xl font-extrabold text-slate-900 dark:text-white tabular-nums">
                           {formatCurrency(goal.currentAmount, settings.currency)}
                         </span>
-                        <span className="text-xs text-slate-400 tabular-nums ml-1">
+                        <span className="text-xs text-slate-400 dark:text-slate-500 tabular-nums ml-1">
                           / {formatCurrency(goal.targetAmount, settings.currency)}
                         </span>
                       </div>
 
                       {isComplete ? (
-                        <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600">
+                        <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
                           <Sparkles className="w-3.5 h-3.5" />
                           Milestone 100% Achieved!
                         </span>
                       ) : (
-                        <p className="text-xs text-slate-500 tabular-nums">
+                        <p className="text-xs text-slate-500 dark:text-slate-400 tabular-nums">
                           Need ~<strong>{formatCurrency(monthlyTarget, settings.currency)}/mo</strong> to hit date
                         </p>
                       )}
@@ -219,15 +219,15 @@ export const SavingsView: React.FC<SavingsViewProps> = ({ store }) => {
                   </div>
 
                   {goal.notes && (
-                    <p className="text-xs text-slate-500 mt-3 p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700/80">
                       {goal.notes}
                     </p>
                   )}
                 </div>
 
                 {/* Actions */}
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
-                  <span className="text-xs text-slate-400">
+                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3">
+                  <span className="text-xs text-slate-400 dark:text-slate-500">
                     {Math.max(0, goal.targetAmount - goal.currentAmount) > 0
                       ? `${formatCurrency(goal.targetAmount - goal.currentAmount, settings.currency)} to go`
                       : 'Goal funded'}
@@ -235,7 +235,7 @@ export const SavingsView: React.FC<SavingsViewProps> = ({ store }) => {
 
                   <button
                     onClick={() => setContributeTarget(goal)}
-                    className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold shadow-xs transition-all active:scale-95 flex items-center gap-1.5"
+                    className="px-4 py-2 bg-slate-900 dark:bg-indigo-600 hover:bg-slate-800 dark:hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-xs transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     <span>Deposit Funds</span>

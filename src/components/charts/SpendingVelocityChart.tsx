@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Transaction, CurrencyCode } from '../../types/finance';
-import { formatCurrency, formatCompactCurrency } from '../../utils/formatters';
+import { formatCurrency } from '../../utils/formatters';
 
 interface SpendingVelocityChartProps {
   transactions: Transaction[];
@@ -26,7 +26,7 @@ export const SpendingVelocityChart: React.FC<SpendingVelocityChartProps> = ({
   const activeDay = isCurrentMonth ? Math.min(today.getDate(), daysInMonth) : daysInMonth;
 
   // Aggregate spending by day
-  const { cumulativeSpending, totalSpentSoFar, pointsString, areaString, targetPointsString } = useMemo(() => {
+  const { totalSpentSoFar, pointsString, areaString, targetPointsString } = useMemo(() => {
     const dailyExpenses: number[] = new Array(daysInMonth + 1).fill(0);
 
     transactions
@@ -105,28 +105,28 @@ export const SpendingVelocityChart: React.FC<SpendingVelocityChartProps> = ({
               isPacingWell ? 'bg-emerald-500' : 'bg-amber-500'
             }`}
           />
-          <span className="font-semibold text-slate-800">
+          <span className="font-semibold text-slate-800 dark:text-slate-200">
             {isPacingWell ? 'Safe Spending Velocity' : 'Approaching Pace Warning'}
           </span>
-          <span className="text-slate-400">
+          <span className="text-slate-400 dark:text-slate-500">
             · Day {activeDay} of {daysInMonth}
           </span>
         </div>
 
-        <div className="flex items-center gap-4 text-slate-500">
+        <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400">
           <div className="flex items-center gap-1.5">
-            <span className="w-3 h-0.5 bg-indigo-600 rounded-full" />
+            <span className="w-3 h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full" />
             <span>Actual Spend</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="w-3 border-t-2 border-dashed border-slate-400" />
+            <span className="w-3 border-t-2 border-dashed border-slate-400 dark:border-slate-500" />
             <span>Budget Ceiling</span>
           </div>
         </div>
       </div>
 
       {/* Responsive SVG Chart */}
-      <div className="w-full h-44 relative bg-slate-50/60 rounded-xl p-2 border border-slate-100">
+      <div className="w-full h-44 relative bg-slate-50/60 dark:bg-slate-800/50 rounded-xl p-2 border border-slate-100 dark:border-slate-800">
         <svg
           viewBox="0 0 600 180"
           className="w-full h-full overflow-visible"
@@ -134,8 +134,8 @@ export const SpendingVelocityChart: React.FC<SpendingVelocityChartProps> = ({
         >
           <defs>
             <linearGradient id="velocityGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#6366F1" stop-opacity="0.25" />
-              <stop offset="100%" stop-color="#6366F1" stop-opacity="0.0" />
+              <stop offset="0%" stopColor="#6366F1" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#6366F1" stopOpacity="0.0" />
             </linearGradient>
           </defs>
 
@@ -157,7 +157,7 @@ export const SpendingVelocityChart: React.FC<SpendingVelocityChartProps> = ({
           <polyline
             points={pointsString}
             fill="none"
-            stroke="#4F46E5"
+            stroke="#6366F1"
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -169,7 +169,7 @@ export const SpendingVelocityChart: React.FC<SpendingVelocityChartProps> = ({
               cx={pointsString.split(' ').pop()?.split(',')[0]}
               cy={pointsString.split(' ').pop()?.split(',')[1]}
               r="4.5"
-              fill="#4F46E5"
+              fill="#6366F1"
               stroke="#FFFFFF"
               strokeWidth="2"
             />
@@ -177,16 +177,26 @@ export const SpendingVelocityChart: React.FC<SpendingVelocityChartProps> = ({
         </svg>
 
         {/* X-axis indicators */}
-        <div className="flex justify-between items-center px-8 mt-1 text-[10px] text-slate-400">
+        <div className="flex justify-between items-center px-8 mt-1 text-[10px] text-slate-400 dark:text-slate-500">
           <span>Day 1</span>
           <span>Day 15</span>
           <span>Day {daysInMonth}</span>
         </div>
       </div>
 
-      <div className="flex items-center justify-between mt-3 text-xs text-slate-500 px-1">
-        <span>Current Month Spend: <strong className="text-slate-900 tabular-nums">{formatCurrency(totalSpentSoFar, currency)}</strong></span>
-        <span>Monthly Allocation: <strong className="text-slate-900 tabular-nums">{formatCurrency(monthlyLimit, currency)}</strong></span>
+      <div className="flex items-center justify-between mt-3 text-xs text-slate-500 dark:text-slate-400 px-1">
+        <span>
+          Current Month Spend:{' '}
+          <strong className="text-slate-900 dark:text-white tabular-nums">
+            {formatCurrency(totalSpentSoFar, currency)}
+          </strong>
+        </span>
+        <span>
+          Monthly Allocation:{' '}
+          <strong className="text-slate-900 dark:text-white tabular-nums">
+            {formatCurrency(monthlyLimit, currency)}
+          </strong>
+        </span>
       </div>
     </div>
   );
